@@ -17,13 +17,13 @@
 
 将单一职责原则用于**类和接口**
 
-<div align="center"><img src="./图/图1-1 用户信息维护类图.png" width="300px"/></div>
+<div align="center"><img src="./graph/g1-1.png" width="300px"/></div>
 
 可以看出这个类图接口设计有问题：**用户的属性和用户的行为没有分开**。
 
 解决方案是**将用户的信息抽取成一个BO（Bussiness Object，业务对象），把行为抽取成一个Biz（Business Logic，业务逻辑）**，按照这个思路对类图进行修正，获得新的设计
 
-<div align="center"><img src="./图/图1-2 职责划分后的类图.png" width="500px"/></div>
+![图1-2 职责划分后的类图](./graph/g1-2.png)
 
 这里IUserInfo被重新拆封成两个接口：**IUserBO负责用户属性，收集和反馈用户的属性；IUserBiz负责用户的行为，完成用户信息的维护和变更**。
 
