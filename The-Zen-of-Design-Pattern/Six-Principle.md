@@ -23,12 +23,12 @@
 
 解决方案是**将用户的信息抽取成一个BO（Bussiness Object，业务对象），把行为抽取成一个Biz（Business Logic，业务逻辑）**，按照这个思路对类图进行修正，获得新的设计
 
-![图1-2 职责划分后的类图](./graph/g1-2.png)
+<div align="center"><img src="./graph/g1-2.png" width="500px"/></div>
 
 这里IUserInfo被重新拆封成两个接口：**IUserBO负责用户属性，收集和反馈用户的属性；IUserBiz负责用户的行为，完成用户信息的维护和变更**。
 
 <div align="center">
-    <img align="center" src="./图/图1-3 项目中经常采用的SRP类图.png" width="300px" /></div>
+    <img align="center" src="./graph/g1-3.png" width="300px" /></div>
 
 项目中经常会采取这样的方式，**即不给用户属性和用户行为创建接口，直接写出这两种接口的实现类**，并将UserBO和UserBiz**组合在同一个类中**，组合是一种强耦合关系，这种方式的缺点在电话的例子中继续讨论。
 
@@ -36,17 +36,17 @@
 
 将单一职责原则用于**接口**
 
-<div align="center"><img src="./图/图1-4 电话类图.png" width="300px"/></div>
+<div align="center"><img src="./graph/g1-4.png" width="300px"/></div>
 
 这个接口包含了**两个职责**：一个是**协议管理**，由dial()和hangup()两个方法实现；一个是**数据传送**，由chat()实现。这样的结果是**协议的变化和数据传送的变化都会引起这个接口或实现类的变化**。
 
 考虑拆分成两个接口
 
-<div align="center"><img src="./图/图1-5 职责分明的电话类图.png" width="500px"/></div>
+<div align="center"><img src="./graph/g1-5.png" width="500px"/></div>
 
 这个类图完全满足了单一职责原则，每个接口职责分明，但是一个**Phone类要把ConnectionManger和DataTransfer组合**在一块才能使用。组合是一种强耦合关系，相耦合的两个类有共同的生命周期，肯定不如用接口实现的方式，而且增加了类的复杂性，多了两个类。
 
-<div align="center"><img src="./图/图1-6 简洁清晰、职责分明的电话类图.png" width="500px"/></div>
+<div align="center"><img src="./graph/g1-6.png" width="500px"/></div>
 
 这是一种完美的设计，**一个类实现了两个接口，把两个职责融合在一个类中，面向接口编程**。但如果真的要是实现**类的单一职责**，就必须使用**组合**模式，但这会**引起类间耦合过重、类的数量增加**的问题，增加了设计的复杂性。
 
@@ -54,11 +54,11 @@
 
 将单一职责原则用于**方法**
 
-<div align="center"><img src="./图/图1-7 一个方法承担多个职责.png" width="500px" /></div>
+<div align="center"><img src="./graph/g1-7.png" width="500px" /></div>
 
 在IUserManager中定义了一个方法changeUser，根据传递的类型不同，把可变长度参数changeOptions修改到userBO对象上，并调用持久层的方法保存到数据库中。
 
-<div align="center"><img src="./图/图1-8 一个方法承担一个职责.png" width="400px"/></div>
+<div align="center"><img src="./graph/g1-8.png" width="400px"/></div>
 
 每个方法职责清晰明确，开发维护简单。
 
@@ -107,7 +107,7 @@
 
 定义一个借口或抽象类时，调用类直接传入接口或抽象类，就已经使用了LSP
 
-<div align="center"><img src="./图/图2-1 CS游戏中的枪支类图.png" width=450px/></div>
+<div align="center"><img src="./graph/g2-1.png" width=450px/></div>
 
 在这个类图中Soldier调用killEnemy()方法时，才知道使用什么枪。
 
@@ -182,7 +182,7 @@ public class Client {
 
 这时候添加了玩具手枪
 
-<div align="center"><img src="./图/图2-2 枪支类图.png" width="450px"/></div>
+<div align="center"><img src="./graph/g2-2.png" width="450px"/></div>
 
 但是玩具枪无法射击，如果让ToyGun实现AbstractGun应该是这样
 
@@ -204,7 +204,7 @@ public class ToyGun extends AbstractGun {
 
 * ToyGun脱离继承，建立一个独立的父类，为了实现代码复用，可以与AbastractGun建立关联委托关系，如图2-3
 
-  <div align="center"><img src="./图/图2-3 玩具枪与真枪分离的类图.png" width="450px"/></div>
+  <div align="center"><img src="./graph/g2-3.png" width="450px"/></div>
 
 根据上面这个例子，在具体应用场景中就要考虑：**子类是否能够完整地实现父类的业务**。
 
@@ -212,7 +212,7 @@ public class ToyGun extends AbstractGun {
 
 本例用于说明：子类可以有自己的个性。
 
-<div align="center"><img src="./图/图2-4 增加AK47和AUG后的Rifle子类图.png" width="450px"/></div>
+<div align="center"><img src="./graph/g2-4.png" width="450px"/></div>
 
 狙击手要使用狙击步枪，有一些普通的Rifle没有的功能，比如缩放
 
@@ -425,7 +425,7 @@ public class Client {
 
 首先看一个类图
 
-<div align="center"><img src="./图/图3-1 司机驾驶奔驰车类图.png" width="500px"></div>
+<div align="center"><img src="./graph/g3-1.png" width="500px"></div>
 
 在这个类图中，Driver需要一辆Benz才能开车，Client即为司机驾驶奔驰车的场景。可以具体为如下几段代码：
 
@@ -470,7 +470,7 @@ public class Client {
 
 下面根据设计意图引入依赖倒置原则：
 
-<div align="center"><img src="./图/图3-2 引入依赖倒置原则后的类图.png" width="500px"></div>
+<div align="center"><img src="./graph/g3-2.png" width="500px"></div>
 
 这里建立了两个接口IDriver和ICar，分别定义了司机和汽车的各个职能，司机就是驾驶汽车，必须实现drive()方法，以下是定义的IDriver接口
 
@@ -668,7 +668,7 @@ public class DriverTest extends TestCase {
 
 本例用于说明：接口隔离原则提出的要求
 
-<div align="center"><img src="./图/图4-1 星探寻找美女的类图.png" width="450px"></div>
+<div align="center"><img src="./graph/g4-1.png" width="450px"></div>
 
 定义一个IPettyGirl，美女应该有goodLooking、niceFigure和greatTemperament，定义一个寻找美女的星探AbastractSearcher
 
@@ -746,8 +746,9 @@ public class Client {
 修改类图
 
 <div align="center">
-    <img src="./图/图4-2 修改后的星探寻找美女类图.png" width="500px"/>
+    <img src="./graph/g4-2.png" width="500px"/>
 </div>
+
 
 这个类图里，抽象星探AbstractSearcher添加了一种AbstractSearcher(IGoodBodyGirl _goodBodyGirl)构造方法，依赖IGoodBodyGirl接口；原来的IPettyGirl被拆成了两个接口，IGoodBodyGirl是抽象的好身材美女，IGreatTemperamentGirl是抽象的好脾气美女。
 
@@ -792,7 +793,7 @@ public class PettyGirl implememts IGoodBodyGirl, IGreatTemperamentGirl {
   但根据接口隔离原则**拆分接口时**，**首先必须满足单一职责原则**。
 
   <div align="center">
-      <img src="./图/图4-3 电话类图.png" width="500px">
+      <img src="./graph/g4-3.png" width="500px">
   </div>
 
 * 接口要高内聚
@@ -806,16 +807,18 @@ public class PettyGirl implememts IGoodBodyGirl, IGreatTemperamentGirl {
   一个图书管理系统的例子
 
   <div align="center">
-      <img src="./图/图4-4 图书查询类图.png" width="250px" />
+      <img src="./graph/g4-4.png" width="250px" />
   </div>
+
 
   图书管理系统有一个查询接口，方便管理员查询图书，接口中定义了多个查询方法，分别按照作者、标题、出版社、分类进行查询，最后还有**混合查询方式**。最后系统速度很慢，原因是complexSearch()方法被公布，但公网没有访问权限，公网可调用但不返回结果。
 
   开发者对该接口进行重构，IBookSearcher拆分为两个接口，分别提供定制服务
 
   <div align="center">
-      <img algin="center" src="./图/图4-5 修改后的图书查询类.png" width="500px" />
+      <img algin="center" src="./graph/g4-5.png" width="500px" />
   </div>
+
 
   提供给管理人员的实现类同时实现了ISimpleBookSearcher和IComplexBookSearcher两个接口，原有程序不用做任何改变，而提供给公网的接口变为ISimpleBookSearcher。
 
@@ -846,8 +849,9 @@ public class PettyGirl implememts IGoodBodyGirl, IGreatTemperamentGirl {
   下面写了一个体育老师让体育委员点女生人数的例子：
 
   <div align="center">
-      <img src="./图/图5-1 老师要求清点女生类图.png" width="400px" />
+      <img src="./graph/g5-1.png" width="400px" />
   </div>
+
 
   Teacher类的command方法负责发送命令给体育委员，命令他清点女生：
 
@@ -903,8 +907,9 @@ public class PettyGirl implememts IGoodBodyGirl, IGreatTemperamentGirl {
   修改类图：
 
   <div align="center">
-      <img src="./图/图5-2 修改后的类图.png" width="400px" />
+      <img src="./graph/g5-2.png" width="400px" />
   </div>
+
 
   修改后的老师
 
@@ -962,7 +967,7 @@ public class PettyGirl implememts IGoodBodyGirl, IGreatTemperamentGirl {
   **一个类公开的public属性或方法越多，修改时涉及的面也就越大，变更引起的风险扩散也就越大**。设计时应当反复衡量，是否应该再减少public方法和属性，是否可以改为private、package-private、protected等访问权限，是否可以加上final关键字。
 
   <div align="center">
-      <img src="./图/图5-3 软件安装过程类图.png" width="400px" />
+      <img src="./graph/g5-3.png" width="400px" />
   </div>
 
 
@@ -1027,9 +1032,8 @@ public class PettyGirl implememts IGoodBodyGirl, IGreatTemperamentGirl {
   重构后的类图
 
   <div align="center">
-      <img src="./图/图5-4 重构后的软件安装过程类图.png" width="550px" />
+      <img src="./graph/g5-4.png" width="550px" />
   </div>
-
 
   在Wizard类中增加一个installWizard方法，对安装过程进行封装，同时把原有的三个public方法修改为private方法。
 
@@ -1117,8 +1121,9 @@ public class PettyGirl implememts IGoodBodyGirl, IGreatTemperamentGirl {
 书店销售书籍来说明什么是开闭原则
 
 <div align="center">
-    <img src="./图/图6-1 书店售书类图.png" width="400px" />
+    <img src="./graph/g6-1.png" width="400px" />
 </div>
+
 
 书籍接口
 
@@ -1197,8 +1202,9 @@ BookStore中声明了一个**静态模块**，实现了数据的初始化，这�
 就采用扩展的方案
 
 <div align="center">
-    <img src="./图/图6-2 扩展后的书店售书类图.png" width="450px" />
+    <img src="./graph/g6-2.png" width="450px" />
 </div>
+
 
 OffNovelBook类继承了NovelBook，并覆写了getPrice方法，不修改原有代码。
 
@@ -1307,8 +1313,9 @@ public class BookStore {
    还是以书店为例，书店新增计算机书籍，不仅有书籍名称、作者、价格等信息，还有面向的领域作为一个独特的属性
 
    <div align="center">
-       <img src="./图/图6-3 增加业务品种后的书店售书类图.png" width="400px"/>
+       <img src="./graph/g6-3.png" width="400px"/>
    </div>
+
 
    增加了一个接口IComputerBook和实现类ComputerBook，BookStore不用做任何修改，可以直接添加ComputerBook类的对象。
 
