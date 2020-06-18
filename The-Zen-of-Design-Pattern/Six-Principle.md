@@ -130,14 +130,14 @@ public class HandGun extends AbstractGun {
         System.out.println("HandGun shooting...");
     }
 }
-public class Rifle extends AbastractGun {
+public class Rifle extends AbstractGun {
     // 步枪特点：射程远，威力大
     @Override
     public void shoot() {
         System.out.println("Rifle shooting...");
     }
 }
-public class MachineGun extends AbastractGun {
+public class MachineGun extends AbstractGun {
     @Override
     public void shoot() {
         System.out.println("MachineGun shooting...");
@@ -150,7 +150,7 @@ public class MachineGun extends AbastractGun {
 ```java
 public class Soldier {
     // 定义士兵的枪支
-    private AbastractGun gun;
+    private AbstractGun gun;
     // 给士兵一支枪
     public void setGun(AbstractGun _gun) {
         this.gun = _gun;
@@ -202,7 +202,7 @@ public class ToyGun extends AbstractGun {
 
 * 在Soldier类中**增加instanceof判断**，如果是ToyGun就不调用killEnemy()方法杀敌；但这是一种**极差的方案**，会导致**所有与这个父类有关系的类都必须增加一个判断**。
 
-* ToyGun脱离继承，建立一个独立的父类，为了实现代码复用，可以与AbastractGun建立关联委托关系，如图2-3
+* ToyGun脱离继承，建立一个独立的父类，为了实现代码复用，可以与AbastractGun建立依赖关系，如图2-3；在这种关系下，AbstractToy不再是AbstractGun的子类，无法被作为参数传递给Soldier
 
   <div align="center"><img src="./graph/g2-3.png" width="450px"/></div>
 
