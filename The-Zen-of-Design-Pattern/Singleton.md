@@ -9,9 +9,8 @@
 臣子叩拜唯一皇帝的过程类图
 
 <div align="center">
-    <img src="./图/图7-1 臣子叩拜皇帝类图.png" width="400px"/>
+    <img src="./graph/g7-1.png" width="400px"/>
 </div>
-
 只有两个类，Emperor代表皇帝类，Minister代表臣子类，关联到皇帝类非常简单。
 
 皇帝类
@@ -57,7 +56,7 @@ Ensures a class has only one instance, and provide a global point of access to i
 确保**一个类只有一个实例**，而且**自行实例化并向整个系统提供这个实例**。
 
 <div align="center">
-    <img src="./图/图7-2 单例模式通用类图.png" width="600px"/>
+    <img src="./graph/g7-2.png" width="600px"/>
 </div>
 
 Singleton类称为**单例类**，通过**使用private的构造函数**确保了在一个应用中产生一个实例，并且是自行实例化的（在Singleton中自己使用new Singleton()）。
@@ -158,7 +157,7 @@ singleton = new Singleton();
 两个皇帝的情况
 
 <div align="center">
-    <img src="./图/图7-3 多个皇帝类图.png" width="500px"/>
+    <img src="./graph/g7-3.png" width="500px"/>
 </div>
 
 固定数量的皇帝类 代码7-5
