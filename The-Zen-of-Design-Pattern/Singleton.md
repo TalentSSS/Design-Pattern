@@ -222,3 +222,94 @@ public class Minister {
 #### 最佳实践
 
 单例模式应用广泛，Spring中每个Bean默认就是单例的，这样做的优点是Spring容器可以管理这些Bean的生命周期，决定什么时候创建出来，什么时候销毁，销毁时要如何处理等。如果用非单例模式（Prototype类型），则Bean初始化后的管理交由J2EE容器，Spring容器不再跟踪管理Bean的生命周期。
+
+ 
+
+
+
+## 实现Singleton模式
+
+### 用于单线程的单例模式
+
+```java
+public class Singleton1 {
+	private Singleton1 () {}
+    
+    private static Singleton1 instance = null;
+    
+    public static Singleton2 getInstance() {
+        if (instance == null) {
+            instance = new Singleton1();
+        }
+        return instance;
+    }
+}
+```
+
+这段代码只能生成一个实例，且构造函数为私有；在静态方法中创建实例，判断`instance`是否为`null`来避免重复创建
+
+但是这段代码只能在单线程的时候正常运行；当有多个线程访问时，如果两个线程同时运行到判断`instance`是否为`null`的if语句，这时`instance`没有被创建，但是两个线程都会去创建实例，不满足单例模式的要求
+
+### 加锁
+
+为了保证程序在多线程环境下正常运行，加一个同步锁
+
+```java
+public static Singleton2 {
+    priavte Singleton2() {}
+    
+    private static Singleton2 instance = null;
+    
+    public static Singleton2 getInstance() {
+        synchronized (instance) {
+            if (instance == null) {
+                instance = new Singleton2();
+            }
+        }
+        return instance;
+    }
+}
+```
+
+这样在同一个时刻，只有一个线程能够拿到锁并访问实例，其他线程只能够等待；第一个线程获得`instance`实例后，判断`instance`是否为`null`，如果为`null`则创建；第一个线程释放`instance`，其他等待的线程拿到`instance`之后，发现`instance`为非空，就不会重复创建`instance`
+
+这段代码存在的问题是，每次尝试获取实例的时候，都需要获取锁去判断`instance`是否存在；而加锁是一个相当耗费资源的操作
+
+### 双重校验锁
+
+实际上只需要在实例没有创建之前进行加锁，保证只有一个线程创建出实例，实例创建好之后，其它线程来获取实例，不需要进行加锁操作
+
+```java
+public static Singleton2 {
+    priavte Singleton2() {}
+    
+    private static Singleton2 instance = null;
+    
+    public static Singleton2 getInstance() {
+        if (instance == null) {
+        	synchronized (instance) {
+        	    if (instance == null) {
+        	        instance = new Singleton2();
+        	    }
+        	}
+        }
+        return instance;
+    }
+}
+```
+
+这就是被无数面试官问烂的双重校验锁。。。面试官有可能会问你：双重校验锁为什么有两个if？两个if的作用分别是什么？加锁干什么？
+
+可以按照以上思路回答：单线程实现单例 -> 加锁实现单例 -> 双重校验锁
+
+1.  单例类必不可少的private修饰的构造器，根据实例是否被创建来决定是否调用构造器
+2.  多线程情况下，对实例加锁
+3.  为了减少加锁操作，使用双重校验锁进行优化
+
+
+
+## 参考内容
+
+《剑指Offer》
+
+《设计模式之禅》
