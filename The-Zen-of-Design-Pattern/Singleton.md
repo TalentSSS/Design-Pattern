@@ -280,12 +280,12 @@ public static Singleton2 {
 实际上只需要在实例没有创建之前进行加锁，保证只有一个线程创建出实例，实例创建好之后，其它线程来获取实例，不需要进行加锁操作
 
 ```java
-public static Singleton2 {
-    priavte Singleton2() {}
+public static Singleton3 {
+    private Singleton3() {}
     
-    private static Singleton2 instance = null;
+    private static Singleton3 instance = null;
     
-    public static Singleton2 getInstance() {
+    public static Singleton3 getInstance() {
         if (instance == null) {
         	synchronized (instance) {
         	    if (instance == null) {
@@ -302,9 +302,55 @@ public static Singleton2 {
 
 可以按照以上思路回答：单线程实现单例 -> 加锁实现单例 -> 双重校验锁
 
-1.  单例类必不可少的private修饰的构造器，根据实例是否被创建来决定是否调用构造器
+1.  单例类必不可少的`private`修饰的构造器，根据实例是否被创建来决定是否调用构造器
 2.  多线程情况下，对实例加锁
 3.  为了减少加锁操作，使用双重校验锁进行优化
+
+### 静态代码块
+
+静态初始化块的代码在类被创建时只调用一次，可以将创建对象的代码写在静态初始化块中
+
+```java
+public class Singleton4 {
+    private Singleton4() {}
+    
+    private static Singleton4 instance;
+    
+    static
+    {
+        instance = new Singleton4();
+    }
+    
+    public static Singleton4 getInstance() {
+        return instance;
+    }
+}
+```
+
+这样在第一次使用这个类的时候就会自动执行，在`Singleton4`中获取`instance`时，是不需要创建一个实例的，但是这样过早的创建了实例，降低了内存利用率
+
+### 按需创建实例
+
+可以使用静态内部类解决创建创建实例过早的问题
+
+```java
+public class Singleton5 {
+    private Singleton5() {}
+    
+    public static Singleton5 getInstance() {
+        return Nested.getInstance();
+    }
+    
+    private class Nested {
+        private static instance = new Singleton5();
+        public static Singleton5 getInstance() {
+            return instance;
+        }
+    }
+}
+```
+
+`Singleton5`获取实例的时候，第一次使用`Nested`这个类，此时会创建`Singleton5`实例；如果不调用，就不会使用到`Nested`类，就不会过早创建实例
 
 
 
