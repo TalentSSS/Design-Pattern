@@ -5,8 +5,9 @@
 做悍马模型，按照最一般的经验设计类图
 
 <div align="center">
-    <img src="./图/图10-1 悍马车模型最一般的类图.png" width="550px"/>
+    <img src="./graph/g10-1.png" width="550px"/>
 </div>
+
 
 悍马车有两个型号，H1和H2。按照需求，只需要悍马模型，写个抽象类，然后两个不同型号的模型实现类，通过简单的继承就可以实现业务要求，先从抽象类开始编写
 
@@ -100,8 +101,9 @@ public class HummerH2Model extends HummerModel {
 修改后的类图
 
 <div align="center">
-    <img src="./图/图10-2 修改后的悍马车模类图.png" width="550px"/>
+    <img src="./graph/g10-2.png" width="550px"/>
 </div>
+
 
 注意抽象类HummerModel中的run()方法，由抽象方法变更为实现方法
 
@@ -151,8 +153,9 @@ Define the skeleton of an algorithm in an operation, deferring some steps to sub
 定义一个方法中的算法框架，将方法中的一些步骤**推迟到子类中实现**。这样子类可以不改变方法中的算法框架，就可以**重新定义算法中的各个执行步骤**。
 
 <div align="center">
-    <img src="./图/图10-3 修改后的悍马车模类图.png" width="350px"/>
+    <img src="./graph/g10-3.png" width="350px"/>
 </div>
+
 
 模板方法仅仅使用了Java的继承机制，但它是一个应用非常广泛的模式。AbstractClass叫做抽象模板
 
@@ -257,8 +260,9 @@ public class Client {
 新类图
 
 <div align="center">
-    <img src="./图/图10-4 扩展悍马车模类图.png" width="400px" />
+    <img src="./graph/g10-4.png" width="400px" />
 </div>
+
 
 在抽象类HummerModel中增加了一个实现类isAlarm，确定各个型号的悍马是否需要声音，由各个实现类覆写该方法，同时其他基本方法由于不需要对外界提供访问，也设计为protected类型。
 
